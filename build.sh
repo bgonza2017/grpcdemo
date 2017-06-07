@@ -18,3 +18,6 @@ cd client
 go build
 cd ..
 
+
+# dependencies:
+# https://github.com/couchbase/gocb.git
