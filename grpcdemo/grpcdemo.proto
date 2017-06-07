@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.grpc.grpcdemo";
+option java_outer_classname = "GrpcDemo";
+
+package grpcdemo;
+
+// The Lobby service
+service Lobby {
+  // Join lobby
+  rpc Join (JoinRequest) returns (JoinReply) {}
+}
+
+// The request message containing the user's name.
+// if name is empty, join as lurker/anonymous.
+message JoinRequest {
+  string name = 1;
+}
+
+// The response message containing the message reply
+message JoinReply {
+  string message = 1;
+}
