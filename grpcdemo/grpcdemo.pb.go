@@ -10,6 +10,8 @@ It is generated from these files:
 It has these top-level messages:
 	JoinRequest
 	JoinReply
+	JoinRoomRequest
+	JoinRoomReply
 */
 package grpcdemo
 
@@ -68,9 +70,51 @@ func (m *JoinReply) GetMessage() string {
 	return ""
 }
 
+type JoinRoomRequest struct {
+	Id   string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	Name string `protobuf:"bytes,2,opt,name=name" json:"name,omitempty"`
+}
+
+func (m *JoinRoomRequest) Reset()                    { *m = JoinRoomRequest{} }
+func (m *JoinRoomRequest) String() string            { return proto.CompactTextString(m) }
+func (*JoinRoomRequest) ProtoMessage()               {}
+func (*JoinRoomRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{2} }
+
+func (m *JoinRoomRequest) GetId() string {
+	if m != nil {
+		return m.Id
+	}
+	return ""
+}
+
+func (m *JoinRoomRequest) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+type JoinRoomReply struct {
+	Message string `protobuf:"bytes,1,opt,name=message" json:"message,omitempty"`
+}
+
+func (m *JoinRoomReply) Reset()                    { *m = JoinRoomReply{} }
+func (m *JoinRoomReply) String() string            { return proto.CompactTextString(m) }
+func (*JoinRoomReply) ProtoMessage()               {}
+func (*JoinRoomReply) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{3} }
+
+func (m *JoinRoomReply) GetMessage() string {
+	if m != nil {
+		return m.Message
+	}
+	return ""
+}
+
 func init() {
 	proto.RegisterType((*JoinRequest)(nil), "grpcdemo.JoinRequest")
 	proto.RegisterType((*JoinReply)(nil), "grpcdemo.JoinReply")
+	proto.RegisterType((*JoinRoomRequest)(nil), "grpcdemo.JoinRoomRequest")
+	proto.RegisterType((*JoinRoomReply)(nil), "grpcdemo.JoinRoomReply")
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -86,6 +130,7 @@ const _ = grpc.SupportPackageIsVersion4
 type LobbyClient interface {
 	// Join lobby
 	Join(ctx context.Context, in *JoinRequest, opts ...grpc.CallOption) (*JoinReply, error)
+	JoinRoom(ctx context.Context, in *JoinRoomRequest, opts ...grpc.CallOption) (*JoinRoomReply, error)
 }
 
 type lobbyClient struct {
@@ -105,11 +150,21 @@ func (c *lobbyClient) Join(ctx context.Context, in *JoinRequest, opts ...grpc.Ca
 	return out, nil
 }
 
+func (c *lobbyClient) JoinRoom(ctx context.Context, in *JoinRoomRequest, opts ...grpc.CallOption) (*JoinRoomReply, error) {
+	out := new(JoinRoomReply)
+	err := grpc.Invoke(ctx, "/grpcdemo.Lobby/JoinRoom", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Lobby service
 
 type LobbyServer interface {
 	// Join lobby
 	Join(context.Context, *JoinRequest) (*JoinReply, error)
+	JoinRoom(context.Context, *JoinRoomRequest) (*JoinRoomReply, error)
 }
 
 func RegisterLobbyServer(s *grpc.Server, srv LobbyServer) {
@@ -134,6 +189,24 @@ func _Lobby_Join_Handler(srv interface{}, ctx context.Context, dec func(interfac
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Lobby_JoinRoom_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(JoinRoomRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LobbyServer).JoinRoom(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/grpcdemo.Lobby/JoinRoom",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LobbyServer).JoinRoom(ctx, req.(*JoinRoomRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Lobby_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "grpcdemo.Lobby",
 	HandlerType: (*LobbyServer)(nil),
@@ -141,6 +214,10 @@ var _Lobby_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Join",
 			Handler:    _Lobby_Join_Handler,
+		},
+		{
+			MethodName: "JoinRoom",
+			Handler:    _Lobby_JoinRoom_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -150,15 +227,19 @@ var _Lobby_serviceDesc = grpc.ServiceDesc{
 func init() { proto.RegisterFile("grpcdemo.proto", fileDescriptor0) }
 
 var fileDescriptor0 = []byte{
-	// 157 bytes of a gzipped FileDescriptorProto
+	// 210 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x4b, 0x2f, 0x2a, 0x48,
 	0x4e, 0x49, 0xcd, 0xcd, 0xd7, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0xe2, 0x80, 0xf1, 0x95, 0x14,
 	0xb9, 0xb8, 0xbd, 0xf2, 0x33, 0xf3, 0x82, 0x52, 0x0b, 0x4b, 0x53, 0x8b, 0x4b, 0x84, 0x84, 0xb8,
 	0x58, 0xf2, 0x12, 0x73, 0x53, 0x25, 0x18, 0x15, 0x18, 0x35, 0x38, 0x83, 0xc0, 0x6c, 0x25, 0x55,
 	0x2e, 0x4e, 0x88, 0x92, 0x82, 0x9c, 0x4a, 0x21, 0x09, 0x2e, 0xf6, 0xdc, 0xd4, 0xe2, 0xe2, 0xc4,
-	0x74, 0x98, 0x1a, 0x18, 0xd7, 0xc8, 0x96, 0x8b, 0xd5, 0x27, 0x3f, 0x29, 0xa9, 0x52, 0xc8, 0x84,
-	0x8b, 0x05, 0xa4, 0x5e, 0x48, 0x54, 0x0f, 0x6e, 0x2b, 0x92, 0x15, 0x52, 0xc2, 0xe8, 0xc2, 0x05,
-	0x39, 0x95, 0x4a, 0x0c, 0x4e, 0x72, 0x5c, 0x02, 0x99, 0xf9, 0x60, 0x29, 0xb8, 0xbc, 0x13, 0x87,
-	0x7b, 0x51, 0x41, 0xb2, 0x4b, 0x6a, 0x6e, 0x7e, 0x00, 0x63, 0x12, 0x1b, 0xd8, 0xe5, 0xc6, 0x80,
-	0x00, 0x00, 0x00, 0xff, 0xff, 0xe5, 0x88, 0xd2, 0x8e, 0xcb, 0x00, 0x00, 0x00,
+	0x74, 0x98, 0x1a, 0x18, 0x57, 0xc9, 0x94, 0x8b, 0x1f, 0xac, 0x2c, 0x3f, 0x3f, 0x17, 0x66, 0x1a,
+	0x1f, 0x17, 0x53, 0x66, 0x0a, 0x54, 0x1d, 0x53, 0x66, 0x0a, 0xdc, 0x74, 0x26, 0x24, 0xd3, 0x35,
+	0xb9, 0x78, 0x11, 0xda, 0xf0, 0xda, 0x60, 0x54, 0xcf, 0xc5, 0xea, 0x93, 0x9f, 0x94, 0x54, 0x29,
+	0x64, 0xc2, 0xc5, 0x02, 0xd2, 0x23, 0x24, 0xaa, 0x07, 0xf7, 0x17, 0x92, 0x27, 0xa4, 0x84, 0xd1,
+	0x85, 0x0b, 0x72, 0x2a, 0x95, 0x18, 0x84, 0x1c, 0xb8, 0x38, 0x60, 0x36, 0x09, 0x49, 0xa2, 0x29,
+	0x41, 0x38, 0x5a, 0x4a, 0x1c, 0x9b, 0x14, 0xd8, 0x04, 0x27, 0x39, 0x2e, 0x81, 0xcc, 0x7c, 0xb0,
+	0x34, 0x5c, 0x8d, 0x13, 0x87, 0x7b, 0x51, 0x41, 0xb2, 0x4b, 0x6a, 0x6e, 0x7e, 0x00, 0x63, 0x12,
+	0x1b, 0x38, 0x74, 0x8d, 0x01, 0x01, 0x00, 0x00, 0xff, 0xff, 0xf8, 0x4a, 0xa3, 0x67, 0x6f, 0x01,
+	0x00, 0x00,
 }

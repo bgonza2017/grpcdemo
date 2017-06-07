@@ -22,6 +22,11 @@ func (s *server) Join(ctx context.Context, in *pb.JoinRequest) (*pb.JoinReply, e
 	return &pb.JoinReply{Message: "Welcome " + in.Name}, nil
 }
 
+func (s *server) JoinRoom(ctx context.Context, in *pb.JoinRoomRequest) (*pb.JoinRoomReply, error) {
+	return &pb.JoinRoomReply{Message: "Welcome " + in.Name}, nil
+}
+
+
 func main() {
 	lis, err := net.Listen("tcp", port)
 	if err != nil {

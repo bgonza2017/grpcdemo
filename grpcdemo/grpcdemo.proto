@@ -10,6 +10,8 @@ package grpcdemo;
 service Lobby {
   // Join lobby
   rpc Join (JoinRequest) returns (JoinReply) {}
+  
+  rpc JoinRoom (JoinRoomRequest) returns (JoinRoomReply) {}
 }
 
 // The request message containing the user's name.
@@ -20,5 +22,14 @@ message JoinRequest {
 
 // The response message containing the message reply
 message JoinReply {
+  string message = 1;
+}
+
+message JoinRoomRequest {
+  string id   = 1;
+  string name = 2;
+}
+
+message JoinRoomReply {
   string message = 1;
 }
