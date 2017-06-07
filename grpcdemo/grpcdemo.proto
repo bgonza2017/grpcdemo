@@ -10,8 +10,11 @@ package grpcdemo;
 service Lobby {
   // Join lobby
   rpc Join (JoinRequest) returns (JoinReply) {}
-  
+
   rpc JoinRoom (JoinRoomRequest) returns (JoinRoomReply) {}
+
+  rpc SendChat (SendChatMessage) returns (SendChatMessageReply) {}
+
 }
 
 // The request message containing the user's name.
@@ -33,3 +36,14 @@ message JoinRoomRequest {
 message JoinRoomReply {
   string message = 1;
 }
+
+
+message SendChatMessage {
+  string message = 1;
+  string roomname = 2;
+}
+
+message SendChatMessageReply {
+  string message = 1;
+}
+

@@ -26,6 +26,11 @@ func (s *server) JoinRoom(ctx context.Context, in *pb.JoinRoomRequest) (*pb.Join
 	return &pb.JoinRoomReply{Message: "Welcome " + in.Name}, nil
 }
 
+func (s *server) SendChat(ctx context.Context, in *pb.SendChatMessage) (*pb.SendChatMessageReply, error) {
+	return &pb.SendChatMessageReply{Message: "Welcome " }, nil
+}
+
+
 
 func main() {
 	lis, err := net.Listen("tcp", port)
