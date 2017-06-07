@@ -107,11 +107,13 @@ func TestCouchBase(t *testing.T) {
 	// Using the provided config get a reference to the couchbase server.
 	dbServer, err = NewDBServer(cbConfig)
 	if err != nil {
-		fmt.Printf("========= cb error ===========\n")
+		t.Error("========= cb error ===========\n")
+		t.Fail()
 		return
 	}
 
-		fmt.Printf("========= cb connected ===========\n")
+	//fmt.Printf("========= cb connected ===========\n")
+	
 	// Ensure that the server connection is cleaned up.
 	defer dbServer.Close()
 
@@ -124,12 +126,14 @@ func TestCouchBase(t *testing.T) {
 	var document DeliveryTradeArea
 	err = dbServer.GetDocument(key, &document)	
 
+	//assert.Equal(t, err, nil, "Error in dbServer")
+
 	if err != nil {
-		fmt.Printf("========= dbServer GetDocument error ===========\n")
+		t.Error("========= dbServer GetDocument error ===========\n")
+		t.Fail()
 		return
 	}
 
-	fmt.Printf("%v", document)
-	fmt.Printf("\n\n========= dbServer GetDocument success ===========\n")
+	//fmt.Printf("%v", document)
 }
 
