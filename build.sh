@@ -24,3 +24,4 @@ cd ..
 # https://github.com/spf13/viper.git
 # https://github.com/pkg/errors.git
 # https://github.com/paulmach/go.geojson.git
+# https://github.com/kardianos/govendor.git
