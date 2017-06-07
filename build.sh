@@ -20,4 +20,4 @@ cd ..
 
 
 # dependencies:
-# https://github.com/couchbase/gocb.git
+# https://github.com/couchbase/gocb.git  >> go get github.com/couchbase/gocb

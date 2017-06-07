@@ -8,6 +8,18 @@ import (
 	gocb "github.com/couchbase/gocb"
 )
 
+type config struct {
+	ServiceName        string `long:"servicename" description:"Name of the service" default:"defaultsvcname"`
+	HostPort           string `long:"hostport" description:"Host port for logging traces" default:"0.0.0.0:0"`
+	ProjectID          string `long:"projectid" description:"Google Cloud Project ID"`
+	ServiceAccountPath string `long:"svc-acc-path" description:"Path to the gcloud Service Account file"`
+	//ZipkinHTTPEndpoint string `long:"zipkinghttpendpoint" description:"Zipkin host to send spans to" default:"http://localhost:9411/api/v1/spans"`
+	//TraceDebug         bool   `long:"tracedebug" description:"Put tracing in debug mode"`
+	//SameSpan           bool   `long:"samespan" description:"same span can be "`
+	//TraceID128Bit      bool   `long:"traceid128bit" description:"make Tracer generate 128 bit traceID's for root spans."`
+
+}
+
 // CouchServer is an interface that any struct can implement to act as
 // a couchbase database connection.
 type CouchServer interface {
